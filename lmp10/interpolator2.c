@@ -1,8 +1,6 @@
 #include "makespl.h"
 #include "piv_ge_solver.h"
 
-#include "legendre.h"
-
 #include <stdio.h>
 
 void
@@ -24,7 +22,7 @@ make_spl (points_t * pts, spline_t * spl)
 		put_entry_matrix( eqs, if1, if1, dx );
 		put_entry_matrix( eqs, if1, if2, dx*dx/2 );
 		put_entry_matrix( eqs, if1, if3, dx*dx*dx/6 );
-		put_entry_matrix( eqs, if1, n*3, legendre(x[i+1]-(dx/2),1)/*y[i+1]-y[i]*/ );
+		put_entry_matrix( eqs, if1, n*3, y[i+1]-y[i] );
 		put_entry_matrix( eqs, if2, if1, 1 );
 		put_entry_matrix( eqs, if2, if2, dx );
 		put_entry_matrix( eqs, if2, if3, dx*dx/2 );
