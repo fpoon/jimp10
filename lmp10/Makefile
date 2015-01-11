@@ -1,8 +1,8 @@
-aprox: main.o splines.o points.o aproksymator_na_bazie.o gaus/libge.a intrp legendre.o
-	$(CC) -o aprox  main.o splines.o points.o interpolator.o legendre.o -L gaus -l ge -lm
+aprox: main.o splines.o points.o gaus/libge.a legendre.o
+	$(CC) -o aprox  main.o splines.o points.o legendre.o -L gaus -l ge -lm
 
-intrp: main.o splines.o points.o interpolator.o gaus/libge.a legendre.o
-	$(CC) -o intrp  main.o splines.o points.o interpolator.o legendre.o -L gaus -l ge -lm
+intrp: main.o splines.o points.o interpolator.o gaus/libge.a
+	$(CC) -o intrp  main.o splines.o points.o interpolator.o -L gaus -l ge -lm
 
 prosta: main.o splines.o points.o prosta.o
 	$(CC) -o prosta  main.o splines.o points.o prosta.o	
