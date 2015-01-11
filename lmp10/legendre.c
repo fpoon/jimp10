@@ -94,24 +94,24 @@ double dfi(double a, double b, int n, int i, double x)
 double d2fi(double a, double b, int n, int i, double x)
 {	
 	return derivative(
-	  derivative(legendre(x-2*DERIV_H,i),legendre(x,i)),
-	  derivative(legendre(x,i),legendre(x+2*DERIV_H,i))
- 			);
+			  derivative(legendre(x-2*DERIV_H,i),legendre(x,i)),
+			  derivative(legendre(x,i),legendre(x+2*DERIV_H,i))
+ 	);	
 }
 
 /* Trzecia pochodna fi */
 double d3fi(double a, double b, int n, int i, double x)
 {	
 	return derivative(
-	      derivative(
-			      derivative(legendre(x-4*DERIV_H,i),legendre(x-2*DERIV_H,i)),
-			      derivative(legendre(x-2*DERIV_H,i),legendre(x,i))
-		    ),
-	      derivative(
-			      derivative(legendre(x,i),legendre(x+2*DERIV_H,i)),
-			      derivative(legendre(x+2*DERIV_H,i),legendre(x+4*DERIV_H,i))
- 			)
- 		);
+			  derivative(
+				      derivative(legendre(x-4*DERIV_H,i),legendre(x-2*DERIV_H,i)),
+				      derivative(legendre(x-2*DERIV_H,i),legendre(x,i))
+			  ),
+			  derivative(
+				      derivative(legendre(x,i),legendre(x+2*DERIV_H,i)),
+				      derivative(legendre(x+2*DERIV_H,i),legendre(x+4*DERIV_H,i))
+			  )
+	);
 }
 
 /* Pomocnicza f. do rysowania bazy */
@@ -146,7 +146,7 @@ make_spl(points_t * pts, spline_t * spl)
 	double		a = x[0];
 	double		b = x[pts->n - 1];
 	int		i, j, k;
-	int		nb = pts->n - 3 > 10 ? 10 : pts->n - 3;
+	int		nb = pts->n - 3 > 12 ? 12 : pts->n - 3;
   char *nbEnv= getenv( "APPROX_BASE_SIZE" );
 
 	if( nbEnv != NULL && atoi( nbEnv ) > 0 )
