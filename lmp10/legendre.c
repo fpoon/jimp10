@@ -64,12 +64,6 @@ double legendre(double x, int n)
   return ret*factor;
 }
 
-double derivative(double y1, double y2)
-{
-   double h = 2*DERIV_H;
-   return (y2-y1)/h;
-}
-
 
 /* UWAGA: liczbę używanych f. bazowych można ustawić przez wartość
           zmiennej środowiskowej APPROX_BASE_SIZE
@@ -87,31 +81,88 @@ double fi(double a, double b, int n, int i, double x)
 /* Pierwsza pochodna fi */
 double dfi(double a, double b, int n, int i, double x)
 {
-	return derivative(legendre(x-DERIV_H,i),legendre(x+DERIV_H,i));
+	switch ( i )
+	{
+	case 1:
+		return 1.0;
+	case 2:
+		return (2.0*3.0*x) / 2.0;
+	case 3:
+		return (3.0*5.0*pow(x,2.0) - 3.0) / 2.0;
+	case 4:
+		return (4.0*35.0*pow(x,3.0) - 2.0*30.0*x) / 8.0;
+	case 5:
+		return (5.0*63.0*pow(x,4.0) - 3.0*70.0*pow(x,2.0) + 15.0) / 8.0;
+	case 6:
+		return (6.0*231.0*pow(x,5.0) - 4.0*315.0*pow(x,3.0) + 2.0*105.0*x) / 16.0;
+	case 7:
+		return (7.0*429.0*pow(x,6.0) - 5.0*693.0*pow(x,4.0) + 3.0*315.0*pow(x,2.0) - 35.0) / 16.0;
+	case 8:
+		return (8.0*6435.0*pow(x,7.0) - 6.0*12012.0*pow(x,5.0) + 4.0*6930.0*pow(x,3.0) - 2.0*1260.0*x) / 128.0;
+	case 9:
+		return (9.0*12155.0*pow(x,8.0) - 7.0*25740.0*pow(x,6.0) + 5.0*18018.0*pow(x,4.0) - 3.0*4620.0*pow(x,2.0) + 315.0) / 128.0;
+	case 10:
+		return (10.0*46189.0*pow(x,9.0) - 8.0*109395.0*pow(x,7.0) + 6.0*90090.0*pow(x,5.0) - 4.0*30030.0*pow(x,3.0) + 2.0*3465.0*x) / 256.0;
+	case 11:
+		return (11.0*88179.0*pow(x,10.0) - 9.0*230945.0*pow(x,8.0) + 7.0*218790.0*pow(x,6.0) - 5.0*90090.0*pow(x,4.0) + 3.0*15015.0*pow(x, 2.0) - 693.0) / 256.0;
+	}
+	return 0.0;
 }
 
 /* Druga pochodna fi */
 double d2fi(double a, double b, int n, int i, double x)
 {	
-	return derivative(
-			  derivative(legendre(x-2*DERIV_H,i),legendre(x,i)),
-			  derivative(legendre(x,i),legendre(x+2*DERIV_H,i))
- 	);	
+	switch ( i )
+	{
+	case 2:
+		return (2.0*3.0) / 2.0;
+	case 3:
+		return (2.0*3.0*5.0*x) / 2.0;
+	case 4:
+		return (3.0*4.0*35.0*pow(x,2.0) - 2.0*30.0) / 8.0;
+	case 5:
+		return (4.0*5.0*63.0*pow(x,3.0) - 2.0*3.0*70.0*x) / 8.0;
+	case 6:
+		return (5.0*6.0*231.0*pow(x,4.0) - 3.0*4.0*315.0*pow(x,2.0) + 2.0*105.0) / 16.0;
+	case 7:
+		return (6.0*7.0*429.0*pow(x,5.0) - 4.0*5.0*693.0*pow(x,3.0) + 2.0*3.0*315.0*x) / 16.0;
+	case 8:
+		return (7.0*8.0*6435.0*pow(x,6.0) - 5.0*6.0*12012.0*pow(x,4.0) + 3.0*4.0*6930.0*pow(x,2.0) - 2.0*1260.0) / 128.0;
+	case 9:
+		return (8.0*9.0*12155.0*pow(x,7.0) - 6.0*7.0*25740.0*pow(x,5.0) + 4.0*5.0*18018.0*pow(x,3.0) - 2.0*3.0*4620.0*x) / 128.0;
+	case 10:
+		return (9.0*10.0*46189.0*pow(x,8.0) - 7.0*8.0*109395.0*pow(x,6.0) + 5.0*6.0*90090.0*pow(x,4.0) - 3.0*4.0*30030.0*pow(x,2.0) + 2.0*3465.0) / 256.0;
+	case 11:
+		return (10.0*11.0*88179.0*pow(x,9.0) - 8.0*9.0*230945.0*pow(x,7.0) + 6.0*7.0*218790.0*pow(x,5.0) - 4.0*5.0*90090.0*pow(x,3.0) + 2.0*3.0*15015.0*x) / 256.0;
+	}
+	return 0.0;	
 }
 
 /* Trzecia pochodna fi */
 double d3fi(double a, double b, int n, int i, double x)
 {	
-	return derivative(
-			  derivative(
-				      derivative(legendre(x-4*DERIV_H,i),legendre(x-2*DERIV_H,i)),
-				      derivative(legendre(x-2*DERIV_H,i),legendre(x,i))
-			  ),
-			  derivative(
-				      derivative(legendre(x,i),legendre(x+2*DERIV_H,i)),
-				      derivative(legendre(x+2*DERIV_H,i),legendre(x+4*DERIV_H,i))
-			  )
-	);
+	switch ( i )
+	{
+	case 3:
+		return (2.0*3.0*5.0) / 2.0;
+	case 4:
+		return (2.0*3.0*4.0*35.0*x) / 8.0;
+	case 5:
+		return (3.0*4.0*5.0*63.0*pow(x,2.0) - 2.0*3.0*70.0) / 8.0;
+	case 6:
+		return (4.0*5.0*6.0*231.0*pow(x,3.0) - 2.0*3.0*4.0*315.0*x) / 16.0;
+	case 7:
+		return (5.0*6.0*7.0*429.0*pow(x,4.0) - 3.0*4.0*5.0*693.0*pow(x,2.0) + 2.0*3.0*315.0) / 16.0;
+	case 8:
+		return (6.0*7.0*8.0*6435.0*pow(x,5.0) - 4.0*5.0*6.0*12012.0*pow(x,3.0) + 2.0*3.0*4.0*6930.0*x) / 128.0;
+	case 9:
+		return (7.0*8.0*9.0*12155.0*pow(x,6.0) - 5.0*6.0*7.0*25740.0*pow(x,4.0) + 3.0*4.0*5.0*18018.0*pow(x,2.0) - 2.0*3.0*4620.0) / 128.0;
+	case 10:
+		return (8.0*9.0*10.0*46189.0*pow(x,7.0) - 6.0*7.0*8.0*109395.0*pow(x,5.0) + 4.0*5.0*6.0*90090.0*pow(x,3.0) - 2.0*3.0*4.0*30030.0*x) / 256.0;
+	case 11:
+		return (9.0*10.0*11.0*88179.0*pow(x,8.0) - 7.0*8.0*9.0*230945.0*pow(x,6.0) + 5.0*6.0*7.0*218790.0*pow(x,4.0) - 3.0*4.0*5.0*90090.0*pow(x,2.0) + 2.0*3.0*15015.0) / 256.0;
+	}
+	return 0.0;
 }
 
 /* Pomocnicza f. do rysowania bazy */
